@@ -326,7 +326,7 @@ font-size:2.5rem;
 
 <div class="glass card" style="max-width:500px;margin:auto;text-align:center;">
 
-<img src="google_maps_location_qr.png" class="qr" alt="Venue QR">
+<img src="qr.png" class="qr" alt="Venue QR">
 
 <p style="margin-top:20px">
 Scan the QR code for instant Google Maps navigation
@@ -390,13 +390,52 @@ Regards : Ajith
 
 <script>
 
-const weddingDate =
-new Date("May 31, 2026 11:00:00").getTime();
+const weddingDate = new Date("May 31, 2026 11:00:00").getTime();
 
-setInterval(() => {
+function updateCountdown() {
 
-const now = new Date().getTime();
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
 
-const distance = weddingDate - now;
+    if (distance < 0) {
+        document.getElementById("days").innerText = "0";
+        document.getElementById("hours").innerText = "0";
+        document.getElementById("mins").innerText = "0";
+        document.getElementById("secs").innerText = "0";
+        return;
+    }
 
-const days = Math.floor(distance/(1000
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) /
+        (1000 * 60 * 60)
+    );
+
+    const mins = Math.floor(
+        (distance % (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
+
+    const secs = Math.floor(
+        (distance % (1000 * 60)) /
+        1000
+    );
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("mins").innerText = mins;
+    document.getElementById("secs").innerText = secs;
+}
+
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+
+// RSVP Success Message
+document.querySelector("form").addEventListener("submit", function(e){
+    e.preventDefault();
+    alert("Thank you for your RSVP ❤️");
+});
+
+</script>
